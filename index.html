@@ -178,12 +178,34 @@
             var ua = navigator.userAgent;
             var isIOS = /iPad|iPhone|iPod/.test(ua) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            var isAndroid = /Android/.test(ua);
+
+            function enc(v) { return encodeURIComponent(v); }
 
             saveContactLink.addEventListener('click', function (e) {
                 e.preventDefault();
 
                 if (isIOS) {
-                    window.location.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
+                    window.location.href = 'data:text/vcard;charset=utf-8,' + enc(vcard);
+                    return;
+                }
+
+                if (isAndroid) {
+                    var fallback = window.location.origin + '/cards/Bhumika-Bhanot.vcf';
+                    var intent = 'intent://contact/#Intent;scheme=content;' +
+                        'action=android.intent.action.INSERT;' +
+                        'type=vnd.android.cursor.dir/contact;' +
+                        'S.name=' + enc('Bhumika Bhanot') + ';' +
+                        'S.phone=' + enc('+919909941400') + ';' +
+                        'i.phone_type=2;' +
+                        'S.secondary_phone=' + enc('+917971888555') + ';' +
+                        'i.secondary_phone_type=3;' +
+                        'S.email=' + enc('bhumika@fibre2fashion.com') + ';' +
+                        'S.company=' + enc('Fibre2Fashion Pvt. Ltd. - TexPro') + ';' +
+                        'S.job_title=' + enc('Sr. VP Business Development & Customer Experience') + ';' +
+                        'S.browser_fallback_url=' + enc(fallback) + ';' +
+                        'end';
+                    window.location.href = intent;
                     return;
                 }
 
