@@ -73,7 +73,7 @@
                             <strong>Mobile:</strong>
                             <p>+91 99099 41400</p>
                         </div>
-                        <div class="savecontact"><a href="cards/Bhumika-Bhanot.vcf"> + Save Contact</a></div>
+                        <div class="savecontact"><a href="cards/Bhumika-Bhanot.vcf" id="saveContactLink"> + Save Contact</a></div>
                     </div>
                 </div>
                 <div class="info-row">
@@ -157,6 +157,46 @@
                 .catch(function () {
                     showStatus('Copy the page URL to share this card.');
                 });
+        }
+
+        var saveContactLink = document.getElementById('saveContactLink');
+        if (saveContactLink) {
+            var vcard = [
+                'BEGIN:VCARD',
+                'VERSION:3.0',
+                'FN:Bhumika Bhanot',
+                'N:Bhanot;Bhumika;;;',
+                'TEL;TYPE=CELL:+919909941400',
+                'TEL;TYPE=WORK:+917971888555',
+                'EMAIL:bhumika@fibre2fashion.com',
+                'ORG:Fibre2Fashion Pvt. Ltd. - TexPro',
+                'TITLE:Sr. VP Business Development & Customer Experience',
+                'URL:https://www.fibre2fashion.com',
+                'END:VCARD'
+            ].join('\r\n');
+
+            var ua = navigator.userAgent;
+            var isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+            saveContactLink.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                if (isIOS) {
+                    window.location.href = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
+                    return;
+                }
+
+                var blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'Bhumika-Bhanot.vcf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+            });
         }
 
         shareButton.addEventListener('click', function () {
