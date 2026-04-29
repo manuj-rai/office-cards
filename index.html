@@ -191,8 +191,7 @@
                 }
 
                 if (isAndroid) {
-                    var fallback = window.location.origin + '/cards/Bhumika-Bhanot.vcf';
-                    var intent = 'intent://contact/#Intent;scheme=content;' +
+                    var intent = 'intent:#Intent;' +
                         'action=android.intent.action.INSERT;' +
                         'type=vnd.android.cursor.dir/contact;' +
                         'S.name=' + enc('Bhumika Bhanot') + ';' +
@@ -203,7 +202,6 @@
                         'S.email=' + enc('bhumika@fibre2fashion.com') + ';' +
                         'S.company=' + enc('Fibre2Fashion Pvt. Ltd. - TexPro') + ';' +
                         'S.job_title=' + enc('Sr. VP Business Development & Customer Experience') + ';' +
-                        'S.browser_fallback_url=' + enc(fallback) + ';' +
                         'end';
                     window.location.href = intent;
                     return;
