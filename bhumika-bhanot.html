@@ -50,11 +50,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <img src="images/share.svg">
-                        </a>
+                        <button type="button" class="share-btn" id="shareCardBtn" aria-label="Share Bhumika Bhanot's digital business card">
+                            <img src="images/share.svg" alt="">
+                        </button>
                     </li>
                 </ul>
+                <div class="share-status" id="shareStatus" role="status" aria-live="polite"></div>
             </div>
               <hr>
     </div>
@@ -109,5 +110,74 @@
         </div>
     </div>
 </div>
+<script>
+    (function () {
+        var shareButton = document.getElementById('shareCardBtn');
+        var shareStatus = document.getElementById('shareStatus');
+        var statusTimer;
+
+        function showStatus(message) {
+            shareStatus.textContent = message;
+            shareStatus.classList.add('is-visible');
+            clearTimeout(statusTimer);
+            statusTimer = setTimeout(function () {
+                shareStatus.classList.remove('is-visible');
+                shareStatus.textContent = '';
+            }, 3000);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                return navigator.clipboard.writeText(text);
+            }
+
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function copyShareLink(url) {
+            copyToClipboard(url)
+                .then(function () {
+                    showStatus('Card link copied.');
+                })
+                .catch(function () {
+                    showStatus('Copy the page URL to share this card.');
+                });
+        }
+
+        shareButton.addEventListener('click', function () {
+            var shareData = {
+                title: 'Bhumika Bhanot - Fibre2Fashion',
+                text: 'Digital business card for Bhumika Bhanot, Sr. VP - Business Development & Customer Experience at Fibre2Fashion.',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(function (error) {
+                    if (error.name !== 'AbortError') {
+                        copyShareLink(shareData.url);
+                    }
+                });
+                return;
+            }
+
+            copyShareLink(shareData.url);
+        });
+    }());
+</script>
 </body>
 </html>

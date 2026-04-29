@@ -18,6 +18,10 @@ html{height: 100%;}
 .social-media-icons ul{margin:0px;padding:0px;display: flex;column-gap:10px;list-style-type: none;justify-content:center;}
 .social-media-icons ul li{background-color:#00338D;display: flex;align-items: center;justify-content: center;width: 40px;height:40px;border-radius:5px;line-height: 1;}
 .social-media-icons ul li img{width:20px;}
+.share-btn{width:100%;height:100%;border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.share-btn:focus-visible{outline:2px solid #E6EDF9;outline-offset:2px;}
+.share-status{display:none; min-height:16px;margin-top:8px;text-align:center;font-size:13px;color:#00338D;opacity:0;transition:opacity .2s ease;}
+.share-status.is-visible{opacity:1;}
 hr {
     margin-top:16px;
     margin-bottom:16px;
